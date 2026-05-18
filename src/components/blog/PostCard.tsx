@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
-import type { Post } from '@/types';
-import { TagChip } from '@/components/ui/TagChip';
-import { Button } from '@/components/ui/Button';
-import { PostMeta } from '@/components/post/PostMeta';
+import { Link } from "react-router-dom";
+import type { Post } from "@/types";
+import { TagChip } from "@/components/ui/TagChip";
+import { Button } from "@/components/ui/Button";
+import { PostMeta } from "@/components/post/PostMeta";
 
 interface PostCardProps {
   post: Post;
@@ -15,10 +15,10 @@ export function PostCard({ post }: PostCardProps) {
   return (
     <article className="flex flex-col h-full w-full group/card select-none">
       {/* ── Cover Image Container ── */}
-      <div className="relative w-full aspect-video overflow-hidden rounded-[var(--border-radius)] border border-[var(--color-border)] mb-4">
+      <div className="relative w-full aspect-video overflow-hidden rounded-(--border-radius) border border-(--color-border) mb-4">
         <Link
           to={`/blog/${post.slug}`}
-          className="block w-full h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+          className="block w-full h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-(--color-accent)"
           aria-label={`Read article: ${post.title}`}
         >
           <img
@@ -34,15 +34,15 @@ export function PostCard({ post }: PostCardProps) {
       <div className="flex flex-col gap-2 mb-3">
         <h3
           className={[
-            'font-[var(--font-heading)]',
-            'font-bold text-[var(--color-fg-bold)]',
-            'text-lg md:text-xl leading-snug',
-            'group-hover/card:text-[var(--color-accent)] transition-colors duration-200',
-          ].join(' ')}
+            "font-(--font-heading)",
+            "font-bold text-(--color-fg-bold)",
+            "text-lg md:text-xl leading-snug",
+            "group-hover/card:text-(--color-accent) transition-colors duration-200",
+          ].join(" ")}
         >
           <Link
             to={`/blog/${post.slug}`}
-            className="hover:underline hover:text-[var(--color-accent)] focus:outline-none focus-visible:text-[var(--color-accent)]"
+            className="hover:underline hover:text-(--color-accent) focus:outline-none focus-visible:text-(--color-accent)"
           >
             {post.title}
           </Link>
@@ -62,7 +62,7 @@ export function PostCard({ post }: PostCardProps) {
       )}
 
       {/* ── Excerpt ── */}
-      <p className="text-sm text-[var(--color-fg)] leading-relaxed line-clamp-2 overflow-hidden mb-6">
+      <p className="text-sm text-(--color-fg) leading-relaxed line-clamp-2 overflow-hidden mb-6">
         {post.excerpt}
       </p>
 
