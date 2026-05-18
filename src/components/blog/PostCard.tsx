@@ -1,33 +1,82 @@
 import { Link } from 'react-router-dom';
 import type { Post } from '@/types';
+import { TagChip } from '@/components/ui/TagChip';
+import { Button } from '@/components/ui/Button';
+import { PostMeta } from '@/components/post/PostMeta';
 
 interface PostCardProps {
   post: Post;
 }
 
-/**
- * PostCard — Stub Implementation.
- * Replaced in full by Group 8 (src/components/blog/PostCard.tsx).
- * This stub exists only to allow PostsGrid.tsx and TypeScript compilation
- * to succeed before Group 8 is built.
- */
 export function PostCard({ post }: PostCardProps) {
+  // Truncate tags to a maximum of 3 items
+  const displayTags = post.tags.slice(0, 3);
+
   return (
-    <article className="flex flex-col h-full p-4 border border-[var(--color-border)] rounded-[var(--border-radius)]">
-      <Link to={`/blog/${post.slug}`} className="hover:underline">
-        <h3 className="font-[var(--font-heading)] font-bold text-lg text-[var(--color-fg-bold)] mb-2">
-          {post.title}
+    <article className="flex flex-col h-full w-full group/card select-none">
+      {/* ── Cover Image Container ── */}
+      <div className="relative w-full aspect-video overflow-hidden rounded-[var(--border-radius)] border border-[var(--color-border)] mb-4">
+        <Link
+          to={`/blog/${post.slug}`}
+          className="block w-full h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]"
+          aria-label={`Read article: ${post.title}`}
+        >
+          <img
+            src={post.coverImage}
+            alt={`Cover image for ${post.title}`}
+            className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover/card:scale-[1.02]"
+            loading="lazy"
+          />
+        </Link>
+      </div>
+
+      {/* ── Title & Meta ── */}
+      <div className="flex flex-col gap-2 mb-3">
+        <h3
+          className={[
+            'font-[var(--font-heading)]',
+            'font-bold text-[var(--color-fg-bold)]',
+            'text-lg md:text-xl leading-snug',
+            'group-hover/card:text-[var(--color-accent)] transition-colors duration-200',
+          ].join(' ')}
+        >
+          <Link
+            to={`/blog/${post.slug}`}
+            className="hover:underline hover:text-[var(--color-accent)] focus:outline-none focus-visible:text-[var(--color-accent)]"
+          >
+            {post.title}
+          </Link>
         </h3>
-      </Link>
-      <p className="text-sm text-[var(--color-fg)] line-clamp-2 mb-4">
+
+        {/* Compact Metadata (Date + Reading Time) */}
+        <PostMeta post={post} compact />
+      </div>
+
+      {/* ── Tag Chips (max 3) ── */}
+      {displayTags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mb-4" aria-label="Tags">
+          {displayTags.map((tag) => (
+            <TagChip key={tag} label={tag} href={`/blog?tag=${tag}`} />
+          ))}
+        </div>
+      )}
+
+      {/* ── Excerpt ── */}
+      <p className="text-sm text-[var(--color-fg)] leading-relaxed line-clamp-2 overflow-hidden mb-6">
         {post.excerpt}
       </p>
-      <Link
-        to={`/blog/${post.slug}`}
-        className="text-xs font-semibold text-[var(--color-accent)] hover:underline mt-auto"
-      >
-        Read More
-      </Link>
+
+      {/* ── Read More CTA ── */}
+      <div className="mt-auto">
+        <Button
+          href={`/blog/${post.slug}`}
+          variant="outline"
+          size="sm"
+          className="w-full sm:w-auto"
+        >
+          Read More
+        </Button>
+      </div>
     </article>
   );
 }
