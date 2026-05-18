@@ -1,4 +1,5 @@
 {
+  // Root config — uses project references. Paths alias (@/) is declared in tsconfig.app.json.
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

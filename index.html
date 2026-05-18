@@ -3,11 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vib3scape</title>
+    <!--
+      Safe viewport: allows pinch-zoom (no user-scalable=no, no maximum-scale).
+      The value is intentionally "initial-scale=1" without a trailing ".0" so
+      that parsers on older iOS don't add implicit rounding.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f56a6a" />
+    <title>Vib3scape — A Dev Blog</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
+

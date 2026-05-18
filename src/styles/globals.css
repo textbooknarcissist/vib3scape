@@ -1,0 +1,176 @@
+/*
+ * globals.css — Vib3scape global stylesheet
+ *
+ * Load order:
+ *   1. Google Fonts (preconnect + @import)
+ *   2. Tailwind v4 base import
+ *   3. Tailwind v4 dark-mode variant declaration
+ *   4. CSS custom properties (light & dark)
+ *   5. Base resets & typography
+ *   6. Focus styles
+ *   7. Mobile touch rules (tap-highlight + resize transition lock)
+ */
+
+/* ─────────────────────────────────────────────
+   1. Google Fonts
+   ───────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto+Slab:wght@700&display=swap');
+
+/* ─────────────────────────────────────────────
+   2. Tailwind v4
+   ───────────────────────────────────────────── */
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   3. Dark-mode variant
+   Mirrors tailwind.config.ts darkMode: 'class'.
+   Applies dark utilities whenever the `dark`
+   class is present on <html> or any ancestor.
+   ───────────────────────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─────────────────────────────────────────────
+   4. Design tokens — CSS custom properties
+   ───────────────────────────────────────────── */
+
+/* Light mode (default) */
+:root {
+  /* Color palette */
+  --color-bg:       #ffffff;
+  --color-bg-alt:   #f5f6f7;
+  --color-fg:       #7f888f;
+  --color-fg-bold:  #3d4449;
+  --color-fg-light: #9fa3a6;
+  --color-border:   rgba(210, 215, 217, 0.75);
+  --color-accent:   #f56a6a;
+
+  /* Typography */
+  --font-body:    'Open Sans', sans-serif;
+  --font-heading: 'Roboto Slab', serif;
+  --font-mono:    ui-monospace, 'Cascadia Code', monospace;
+
+  /* Layout */
+  --sidebar-width:    26rem;
+  --border-radius:    0.375rem;
+  --element-margin:   2rem;
+}
+
+/* Dark mode — applied when <html> carries the `dark` class */
+.dark {
+  --color-bg:       #1a1d1e;
+  --color-bg-alt:   #222527;
+  --color-fg:       #c8cdd0;
+  --color-fg-bold:  #e8eaeb;
+  --color-fg-light: #888e92;
+  --color-border:   rgba(255, 255, 255, 0.08);
+  --color-accent:   #f56a6a; /* accent is intentionally unchanged in dark mode */
+}
+
+/* ─────────────────────────────────────────────
+   5. Base resets & typography
+   ───────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Smooth scrolling for anchor links */
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  font-family: var(--font-body);
+  font-size: 1rem;           /* 16px — base for md+ */
+  line-height: 1.625;        /* leading-relaxed */
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+
+  /* Subpixel font rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Mobile body font: 14px */
+@media (max-width: 767px) {
+  body {
+    font-size: 0.875rem;
+  }
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-fg-bold);
+  line-height: 1.2;
+  margin-top: 0;
+  margin-bottom: 0.5em;
+}
+
+/* Paragraph reset */
+p {
+  margin-top: 0;
+  margin-bottom: var(--element-margin);
+}
+
+/* Anchors */
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Code & pre */
+code, pre {
+  font-family: var(--font-mono);
+}
+
+/* ─────────────────────────────────────────────
+   6. Focus styles
+   Visible keyboard-focus ring on all interactive
+   elements using the accent color.
+   ───────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--border-radius);
+}
+
+/* Remove default focus ring for mouse/touch users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ─────────────────────────────────────────────
+   7. Mobile touch & animation rules
+   ───────────────────────────────────────────── */
+
+/* Remove Android Chrome's blue tap flash on custom interactive elements */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/*
+ * Resize transition lock:
+ * The Layout component adds `is-resizing` to <body> during window resize
+ * (100 ms debounce) to prevent sidebar/layout glitches during orientation
+ * changes. All transitions are suppressed while the class is present.
+ */
+body.is-resizing * {
+  transition: none !important;
+}
